@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}{{pet.name}} Details{% endblock %}
+
+{% block content %}
+<h1 class="display-2 bg-warning text-dark pb-2 text-center">Say Hello to {{pet.name}}</h1>
+<div class="row justify-content-center">
+    {% if pet.photo_url %}
+    <div class="col-4">
+        <img class="img-fluid mt-5" src="{{pet.photo_url}}" alt="">
+    </div>
+    <div class="col-4">
+        <h5 class="mt-4 text-center">About {{pet.name}}</h5>
+        <ul class="list-group list-group-flush">
+            <li class="bg-secondary list-group-item">Name: {{pet.name}}</li>
+            <li class="list-group-item bg-light text-dark">Species: {{pet.species}}</li>
+            {% if pet.age %}
+            <li class="list-group-item bg-secondary">Age: {{pet.age}}</li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+{% else %}
+<div class="col-4">
+    <h5 class="mt-4 text-center">About {{pet.name}}</h5>
+    <ul class="list-group list-group-flush">
+        <li class="bg-secondary list-group-item">Name: {{pet.name}}</li>
+        <li class="list-group-item bg-light text-dark">Species: {{pet.species}}</li>
+        {% if pet.age %}
+        <li class="list-group-item bg-secondary">Age: {{pet.age}}</li>
+        {% endif %}
+    </ul>
+</div>
+{% endif %}
+<h4 class="text-center">Edit Details</h4>
+<div class="container">
+    <form id="new_pet_form" class="container" method="POST">
+        {{ form.hidden_tag() }}
+
+        {% for field in form
+        if field.widget.input_type != 'hidden' %}
+
+        <p>
+            {{ field.label(class_="form-label") }}
+            {{ field(class_="form-control bg-light bg-gradient") }}
+
+            {% for error in field.errors %}
+            {{ error }}
+            {% endfor %}
+        </p>
+
+        {% endfor %}
+
+        <button class="btn btn-warning" type="submit">Submit</button>
+        <a href="/" class="btn btn-outline-warning">Back to Pets</a>
+    </form>
+</div>
+{% endblock %}
